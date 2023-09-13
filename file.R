@@ -60,7 +60,6 @@ print(my_list[2])
 
 numbervector <- seq(from = 10, to = 90, by = 10)
 my_matrix <- matrix(numbervector, nrow = 3, ncol = 3, byrow = TRUE)
-
 my_matrix[2, 2] <- 100
 
 arr <- array(2:13, dim = c(2, 3, 2))
@@ -69,3 +68,18 @@ x <- c("3.33", "3.14", "9.95")
 class(x)
 x <- as.numeric(x)
 class(x)
+
+mean(x)
+median(x)
+
+# Display the Mean, Range and mode of a dataset
+setwd("/home/bigguy/Documents/School/DATASCI/")
+cardiodata <- read.csv("CardioGoodFitness.csv")
+mean(cardiodata$Miles)
+range(cardiodata$Miles)
+mode(cardiodata$Miles)
+
+# Create a histogram displaying frequency distribution of miles
+
+miles <- cardiodata$Miles
+hist(miles, col = "red")
