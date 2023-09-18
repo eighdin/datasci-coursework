@@ -83,3 +83,6 @@ mode(cardiodata$Miles)
 
 miles <- cardiodata$Miles
 hist(miles, col = "red")
+
+school_data <- read.csv("CensusSchool.csv")
+print(str(school_data))
