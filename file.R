@@ -27,19 +27,18 @@ a1[, , 2]
 
 name_vector <- c("Roy", "Jane", "Joe", "Josh")
 age_vector <- c(21, 33, 18, 28)
-gender_vector <- c("M", "F", "M", "M")
 
-data_frame <- data.frame(name_vector, age_vector, gender_vector)
-print(data_frame)
+my_frame <- data.frame(name_vector, age_vector, gender_vector)
+print(my_frame)
 # Prints out only the name vector
-print(data_frame[, "name_vector"])
-print(data_frame[, 1])
+print(my_frame[, "name_vector"])
+print(my_frame[, 1])
 
 # you can use row, column to print out the data in a frame
-data_frame[1, 1:2]
+my_frame[1, 1:2]
 
 # you can use the $ to be able to read a vector from the data frame
-data_frame$name_vector
+my_frame$name_vector
 
 # List
 
@@ -83,3 +82,20 @@ mode(cardiodata$Miles)
 
 miles <- cardiodata$Miles
 hist(miles, col = "red")
+
+census_data <- read.csv("CensusSchool.csv")
+print(str(census_data))
+census_data$travel <- as.factor(census_data$travel)
+census_data$travel
+
+range(census_data$cellcost)
+hist(census_data$cellcost)
+
+#Exercise: Gender Disparity
+
+str(cardiodata) #show structure of data and see what can be gleaned from it
+cardiodata$Gender <- as.factor(cardiodata$Gender)
+gender_vector <- cardiodata$Gender
+male_vector <- gender_vector[gender_vector == "Male"]
+percent_of_males <- (length(male_vector) / length(gender_vector)) * 100
+
