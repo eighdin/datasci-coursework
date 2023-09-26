@@ -95,7 +95,6 @@ hist(cost_vector)
 
 census_data$cellcost
 cellcost <- census_data$cellcost[!is.na(census_data$cellcost)]
-cellcost
 hist(cellcost)
 #Exercise: Gender Disparity
 
