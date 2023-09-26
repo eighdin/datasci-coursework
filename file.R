@@ -122,12 +122,39 @@ hist(VADeaths, col = "red", main = "bah")
 # install rcolorbrewer and use it to set colors from a pallate
 install.packages("RColorBrewer")
 library(RColorBrewer)
+palette.pals()
 
 # partition command, sets rules for displaying data, we set the window
 # to display 1 row with two columns for histograms.
 par(mfrow = c(1, 2))
 hist(VADeaths, breaks = 10, col = "red", main = "VA Deaths")
 hist(VADeaths, breaks = 20, col = palette.colors(n = 1, palette = "Set3"))
+# could use col = c(r, g, b) to set the color as well
 
 # drawing line charts
 plot(AirPassengers)
+
+# using iris data
+str(iris)
+par(mfrow = c(1, 1))
+barplot(
+    c(iris$Species, iris$Petal.Length),
+    col = "yellow",
+    xlab = "Species",
+    ylab = "Petal Length (cm)"
+)
+
+barplot(
+    table(iris$Species, iris$Petal.Length),
+    col = palette.colors(n = 3, palette = "Set3"),
+    xlab = "Petal Length (cm)",
+    ylab = "Frequency"
+)
+
+# can use levels(iris$Species) as well. this picks out unique values in the data
+# instead of putting x, y for position you can use locator() function
+legend(43, 12, unique(iris$Species), col = palette.colors(n = 3, palette = "Set3"))
+
+# creates a table of different categories, ex: species
+flower_table <- table(iris$Species, iris$Petal.Length)
+flower_table[1, "1.5"]# I can use the name of the column to pull data or I can use just the column number
