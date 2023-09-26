@@ -85,9 +85,13 @@ census_data <- read.csv("CensusSchool.csv")
 print(str(census_data))
 census_data$travel <- as.factor(census_data$travel)
 census_data$travel
+cost_vector <- census_data$cellcost
+cost_vector <- cost_vector[!is.na(cost_vector)]
 
 range(census_data$cellcost)
+range(cost_vector)
 hist(census_data$cellcost)
+hist(cost_vector)
 
 census_data$cellcost
 cellcost <- census_data$cellcost[!is.na(census_data$cellcost)]
