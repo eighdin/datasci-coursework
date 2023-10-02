@@ -196,5 +196,4 @@ View(clean_map_vaccine_data)
 cool_pallete_color <- palette.colors(n = 1, palette = "Set3")
 mosher_test_scores <- c(86, 81, 79, 71, 58, 87, 52, 71, 87, 87, 93, 64, 94, 81, 76, 98, 94, 68)
 
-mosher_table <- table(mosher_test_scores)
-barplot(mosher_table, col = cool_pallete_color, xlab = "Score %", ylab = "# Students")
+barplot(sort(mosher_test_scores), xlab = "Student", ylab = "Score %", col = cool_pallete_color)
