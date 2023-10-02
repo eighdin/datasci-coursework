@@ -179,17 +179,21 @@ View(mapdata)
 
 data1 <- data.frame(ID = 1:2, x1 = c("a1", "a2"), stringsAsFactors =  FALSE)
 data2 <- data.frame(ID = 2:3, x2 = c("b1", "b2"), stringsAsFactors =  FALSE)
-inner_join(data1, data2)
+inner_join(data1, data2, by = "ID") #displays rows where there's an entry for data1 and data2
+left_join(data1, data2, by = "ID") #display rows where there's an entry for data1
+right_join(data1, data2, by = "ID") #display rows where there's an entry for data2
+full_join(data1, data2, by = "ID") #display all rows
 #mutating mapdata and vaccine_data
 
 map_vaccine_data <- left_join(mapdata, vaccine_data, by = "region")
 View(map_vaccine_data)
 
-clean_map_vaccine_data <- map_vaccine_data %>% filter(!is.na(map_vaccine_data$Perc_vaccinated))
+# set clean_map_vaccine_data as the combined data sets, then filter out all rows that have NA as Perc_vax
+clean_map_vaccine_data <- filter(!is.na(map_vaccine_data$Perc_vaccinated))
 View(clean_map_vaccine_data)
 
 # Midterm Work 1
-
+cool_pallete_color <- palette.colors(n = 1, palette = "Set3")
 mosher_test_scores <- c(86, 81, 79, 71, 58, 87, 52, 71, 87, 87, 93, 64, 94, 81, 76, 98, 94, 68)
 
 mosher_table <- table(mosher_test_scores)
