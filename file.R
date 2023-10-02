@@ -187,3 +187,10 @@ View(map_vaccine_data)
 
 clean_map_vaccine_data <- map_vaccine_data %>% filter(!is.na(map_vaccine_data$Perc_vaccinated))
 View(clean_map_vaccine_data)
+
+# Midterm Work 1
+
+mosher_test_scores <- c(86, 81, 79, 71, 58, 87, 52, 71, 87, 87, 93, 64, 94, 81, 76, 98, 94, 68)
+
+mosher_table <- table(mosher_test_scores)
+barplot(mosher_table, col = cool_pallete_color, xlab = "Score %", ylab = "# Students")
