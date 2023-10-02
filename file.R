@@ -161,3 +161,11 @@ legend(43, 12, unique(iris$Species), col = palette.colors(n = 3, palette = "Set3
 # creates a table of different categories, ex: species
 flower_table <- table(iris$Species, iris$Petal.Length)
 flower_table[1, "1.5"]# I can use the name of the column to pull data or I can use just the column number
+
+# Midterm Work 1
+cool_pallete_color <- palette.colors(n = 1, palette = "Set3")
+mosher_test_scores <- c(86, 81, 79, 71, 58, 87, 52, 71, 87, 87, 93, 64, 94, 81, 76, 98, 94, 68)
+
+mosher_table <- table(mosher_test_scores)
+barplot(mosher_table, col = cool_pallete_color, xlab = "Score %", ylab = "No. Students")
+# There is not any skew to the data, it's pretty evenly distributed.
