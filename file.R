@@ -156,8 +156,34 @@ barplot(
 
 # can use levels(iris$Species) as well. this picks out unique values in the data
 # instead of putting x, y for position you can use locator() function
-legend(43, 12, unique(iris$Species), col = palette.colors(n = 3, palette = "Set3"))
+legend(43, 12, unique(iris$Species), fill = palette.colors(n = 3, palette = "Set3"))
 
 # creates a table of different categories, ex: species
 flower_table <- table(iris$Species, iris$Petal.Length)
 flower_table[1, "1.5"]# I can use the name of the column to pull data or I can use just the column number
+
+boxplot(iris$Petal.Length ~ iris$Species, horizontal = TRUE)
+
+vaccine_data <- read.csv("EUvaccine.csv")
+View(vaccine_data)
+barplot(vaccine_data$Perc_vaccinated ~ vaccine_data$region)
+barplot(table(vaccine_data$region, vaccine_data$Perc_vaccinated))
+
+# 10/2/2023 Classwork
+
+library(maps)
+library(ggplot2)
+library(tidyverse)
+mapdata <- map_data("world")
+View(mapdata)
+
+data1 <- data.frame(ID = 1:2, x1 = c("a1", "a2"), stringsAsFactors =  FALSE)
+data2 <- data.frame(ID = 2:3, x2 = c("b1", "b2"), stringsAsFactors =  FALSE)
+inner_join(data1, data2)
+#mutating mapdata and vaccine_data
+
+map_vaccine_data <- left_join(mapdata, vaccine_data, by = "region")
+View(map_vaccine_data)
+
+clean_map_vaccine_data <- map_vaccine_data %>% filter(!is.na(map_vaccine_data$Perc_vaccinated))
+View(clean_map_vaccine_data)
