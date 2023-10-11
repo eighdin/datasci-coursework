@@ -197,3 +197,52 @@ cool_pallete_color <- palette.colors(n = 1, palette = "Set3")
 mosher_test_scores <- c(86, 81, 79, 71, 58, 87, 52, 71, 87, 87, 93, 64, 94, 81, 76, 98, 94, 68)
 
 barplot(sort(mosher_test_scores), xlab = "Student", ylab = "Score %", col = cool_pallete_color)
+
+# 10/9/2023 Classwork
+
+install.packages(c("tm", "Snowballc", "wordcloud", "RColorBrewer"), dependencies = TRUE)
+library(tm)
+library(SnowballC)
+library(wordcloud)
+library(RColorBrewer)
+
+text <- readLines(file.choose()) # select the speech from downloads file /home/bigguy/Downloads/speech.txt
+View(text)
+docs <- Corpus(VectorSource(text)) # seperate the speech into more docs
+inspect(docs)
+
+# filter the data
+to_space <- content_transformer(function(x, pattern) gsub(pattern, " ", x))
+docs <- tm_map(docs, to_space, "/")
+docs <- tm_map(docs, to_space, "@")
+docs <- tm_map(docs, to_space, "\\|")
+
+docs <- tm_map(docs, content_transformer(tolower))
+
+docs <- tm_map(docs, removePunctuation)
+# docs <- tm_map(docs, removeNumbers)
+docs <- tm_map(docs, removeWords, stopwords("english"))
+
+# 10/11/23 Work
+
+docs <- tm_map(docs, stripWhitespace)
+# docs <- tm_map(docs, stemDocument, language = "english")
+docs_tdm <- TermDocumentMatrix(docs) # create TDM from filtered speech
+docs_tdm_matrix <- as.matrix(docs_tdm)
+v <- sort(rowSums(docs_tdm_matrix), decreasing = TRUE)
+d <- data.frame(word = names(v), freq = v)
+head(d, 10)
+
+# create term-document matrix
+test_doc <- c("Text analysis is fun", "I like doing text analysis")
+vector_source <- Corpus(VectorSource(test_doc))
+test_doc_term_matrix <- TermDocumentMatrix(vector_source)
+inspect(test_doc_term_matrix)
+
+# create word cloud
+set.seed(1234)
+rnorm(5)
+wordcloud(
+    words = d$word, freq = d$freq, min.freq = 1, max.words = 200, random.order = FALSE, 
+    rot.per = .2, colors = brewer.pal(8, "Dark2")
+)
