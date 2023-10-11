@@ -243,6 +243,6 @@ inspect(test_doc_term_matrix)
 set.seed(1234)
 rnorm(5)
 wordcloud(
-    words = d$word, freq = d$freq, min.freq = 1, max.words = 200, random.order = FALSE, 
-    rot.per = .2, colors = brewer.pal(8, "Dark2")
+    words = d$word, freq = d$freq, min.freq = 1, max.words = 200,
+    random.order = FALSE, rot.per = .2, colors = brewer.pal(8, "Dark2")
 )
