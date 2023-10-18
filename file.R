@@ -246,3 +246,43 @@ wordcloud(
     words = d$word, freq = d$freq, min.freq = 1, max.words = 200,
     random.order = FALSE, rot.per = .2, colors = brewer.pal(8, "Dark2")
 )
+
+# 10/16/2023 Classwork
+
+apple <- read.csv(file.choose(), header = TRUE)
+str(apple)
+
+apple_corpus <- Corpus(VectorSource(apple))
+
+# 10/18/2023 classwork
+
+install.packages(c("syuzhet", "lubridate", "ggplot2", "scales", "reshape2", "dplyr"))
+library(syuzhet)
+# syuzhet: sentiment analysis
+# lubridate: useful for looking at dates of things and relating things to time
+# ggplot2: useful for more sophisticated graphs
+# scales: scaling data when visualizing data
+# reshape2: restructure data visually
+# dplyr: useful for manipulating dataframes
+
+apple <- read.csv(file.choose(), header = TRUE)
+tweets <- iconv(apple$text, to = "UTF-8")
+
+sentiment <- get_nrc_sentiment(tweets)
+head(sentiment, 10)
+
+barplot(
+    colSums(sentiment), las = 2, col = rainbow(10),
+    ylab = "Total Count", main = "Sentiment analysis for apple tweets"
+)
+
+# HW 4
+install.packages("ozmaps", dependencies = TRUE)
+library(ggplot2)
+str(ozmap_states) # Data is 9 rows x 2 columns
+View(ozmap_states)
+
+oz_states <- ozmap_states[9, 2]
+View(oz_states)
+australia_map <- ggplot(data = ozmap_states) + geom_sf(fill = rainbow(9))
+australia_map
