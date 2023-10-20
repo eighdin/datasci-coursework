@@ -279,6 +279,7 @@ barplot(
 # HW 4
 install.packages("ozmaps", dependencies = TRUE)
 library(ggplot2)
+library(ozmaps)
 str(ozmap_states) # Data is 9 rows x 2 columns
 View(ozmap_states)
 
@@ -286,3 +287,11 @@ oz_states <- ozmap_states[9, 2]
 View(oz_states)
 australia_map <- ggplot(data = ozmap_states) + geom_sf(fill = rainbow(9))
 australia_map
+
+# 10/20/2023 classwork
+
+basket <- read.csv(file.choose(), header = FALSE)
+View(basket)
+
+dim(basket)
+colnames(basket) <- c("Date", "Transaction_ID", "Item")
