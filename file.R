@@ -280,18 +280,34 @@ barplot(
 install.packages("ozmaps", dependencies = TRUE)
 library(ggplot2)
 library(ozmaps)
+library(tidyverse)
 str(ozmap_states) # Data is 9 rows x 2 columns
 View(ozmap_states)
 
+oz_states <- ozmap_states[ozmap_states$NAME != "Other Territories"]
+oz_states <- ozmap_states %>% filter(NAME != "Other Territories")
+oz_states <- ozmap_states[1:8, ]
+oz_states <- ozmap_states[-9, ]
 oz_states <- ozmap_states[9, 2]
+
 View(oz_states)
-australia_map <- ggplot(data = ozmap_states) + geom_sf(fill = rainbow(9))
+australia_map <- ggplot() + geom_sf(data = oz_states, aes(fill = NAME))
+australia_map <- ggplot(data = oz_states) + geom_sf(fill = ozmap_states$NAME)
 australia_map
 
 # 10/20/2023 classwork
 
-basket <- read.csv(file.choose(), header = FALSE)
+basket <- read.csv("shoppingcart.csv", header = FALSE)
 View(basket)
 
 dim(basket)
 colnames(basket) <- c("Date", "Transaction_ID", "Item")
+colSums(is.na(basket)) #checks for missing values
+any(is.null(basket)) #checks for null values
+
+nrow(unique(basket)) # checks for duplicate values
+
+basket <- unique(basket) # filters out duplicates
+most_sold <- basket %>% group_by(Item) %>% count() %>% arrange(desc(n))
+
+wordcloud2(most_sold, size = 0.13, shape = "circle")
