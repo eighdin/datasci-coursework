@@ -311,3 +311,60 @@ basket <- unique(basket) # filters out duplicates
 most_sold <- basket %>% group_by(Item) %>% count() %>% arrange(desc(n))
 
 wordcloud2(most_sold, size = 0.13, shape = "circle")
+
+# 10/25/2023 Classwork
+
+basket$Year <- sapply(basket$Date, FUN = function(x) strsplit(x, split = "-") [[1]][1]) #Adding year column
+mostsold_yr <- basket %>% group_by(Year) %>% count() %>% arrange(desc(n)) #new var storing the years & amt sold
+
+ggplot(
+    mostsold_yr,
+    aes(x = Year, y = n)
+) + geom_bar(
+    stat = "identity",
+    aes(fill = as.factor(Year)),
+    show.legend = FALSE
+) + ggtitle(
+    "Yearly Sales"
+) + theme_bw()
+
+barplot(mostsold_yr$n, names.arg = mostsold_yr$Year, col = palette.colors(n = 3, palette = "Set 3"))
+
+# HW# 5
+
+# i)
+raw_health_data <- read.csv("TeamHealthRawDataForDemo.txt")
+health_data <- Corpus(VectorSource(raw_health_data))
+to_space <- content_transformer(function(x, pattern) gsub(pattern, " ", x))
+
+health_data <- tm_map(health_data, content_transformer(tolower))
+health_data <- tm_map(health_data, removePunctuation)
+health_data <- tm_map(health_data, removeWords, stopwords("english"))
+
+health_data_tdm <- TermDocumentMatrix(health_data)
+health_data_tdm_matrix <- as.matrix(health_data_tdm)
+health_data_vector <- sort(rowSums(health_data_tdm_matrix), decreasing = TRUE)
+health_data_df <- data.frame(word = names(health_data_vector), freq = health_data_vector)
+head(health_data_df, 5)
+
+# ii)
+ggplot(
+    head(health_data_df),
+    aes(x = reorder(word, freq), y = freq)
+) + geom_bar(
+    stat = "identity",
+    aes(fill = as.factor(word)),
+    show.legend = FALSE
+) + ggtitle(
+    "Word Frequency"
+)
+
+# iii)
+head(health_data_df, 8)
+
+# iv)
+set.seed(1234)
+wordcloud(
+    words = health_data_df$word, freq = health_data_df$freq, min.freq = 5, max.words = 100,
+    random.order = FALSE, rot.per = .4, colors = brewer.pal(8, "Dark2")
+)
