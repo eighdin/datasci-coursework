@@ -368,3 +368,80 @@ wordcloud(
     words = health_data_df$word, freq = health_data_df$freq, min.freq = 5, max.words = 100,
     random.order = FALSE, rot.per = .4, colors = brewer.pal(8, "Dark2")
 )
+
+# Days i Missed
+
+basket$Month <- sapply(basket$Date, FUN = function(x) strsplit(x, split = "-") [[1]][2]) #Adding year column
+basket$Date <- as.Date(basket$Date)
+basket$Month <- format(basket$Date, "%m")
+
+mostsold_month <- basket %>% group_by(Month) %>% count() %>% arrange(desc(n)) #new var storing the years & amt sold
+ggplot(
+    mostsold_month,
+    aes(x = Month, y = n)
+) + geom_bar(
+    stat = "identity",
+    aes(fill = as.factor(Month)),
+    show.legend = FALSE
+) + ggtitle(
+    "Sales over Months"
+)
+
+# 11/1/2023 classwork
+
+basket_trans <- split(x = basket[, "Item"], f = basket$Transaction_ID)
+
+basket_trans <- as(basket_trans, "transactions")
+summary(basket_trans)
+
+#visualize item freq
+itemFrequencyPlot(basket_trans, topN = 20, type = "absolute")
+
+#apriori algorithm
+apriori_rules <- apriori(basket_trans, parameter = list(sup = 0.15, conf = 0.8, target = "rules"))
+summary(apriori_rules)
+inspect(apriori_rules)
+
+install.packages("arulesViz", dependencies = TRUE)
+library(arulesViz)
+
+#11/6/2023 classwork
+plot(apriori_rules)
+plot(head(sort(apriori_rules, by = "lift"), 22), method = "graph")
+
+#interactive maps
+plot(head(sort(apriori_rules, by = "lift"), 22), method = "graph", interactive = TRUE)
+
+plot(head(sort(apriori_rules, by = "lift"), 22), method = "graph", engine = "html")
+
+# grouped data
+plot(apriori_rules, method = "grouped")
+
+# display rules in decreasing order
+
+inspect(sort(apriori_rules, by = "lift", decreasing = TRUE))
+apriori_rules %>% sort(by = "lift", decreasing = TRUE) %>% inspect()
+
+best_rules <- apriori_rules[quality(apriori_rules)$lift > 1.215]
+
+# more classwork
+advertising_data <- read.csv('Advertising.csv')
+dim(advertising_data)
+
+simple_lin <- lm(formula = Sales ~ Radio, data = advertising_data)
+summary(simple_lin)
+
+# Multi-layered visual
+ggplot(simple_lin, aes(x = Radio, y = Sales)) + geom_point() + stat_smooth(method = "lm", col = "red", fill = "yellow")
+
+#scatter-plot with line of best fit
+plot(advertising_data$Radio, advertising_data$Sales, main = "Radio vs Sales", col = "blue")
+abline(simple_lin, col = "red", lwd = 2)
+plot(advertising_data)
+
+#multiple linear regression
+multi_lin <- lm(Sales ~ Radio + TV + Newspaper, data = advertising_data)
+summary(multi_lin)
+plot(advertising_data$Radio ~ advertising_data$Sales)
+summary(mtcars)
+plot(mtcars)
